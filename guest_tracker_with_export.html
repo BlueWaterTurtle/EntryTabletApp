@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            width: 300px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input[type="text"], input[type="datetime-local"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        input[type="submit"], button {
+            padding: 8px 16px;
+            margin-right: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Guest Tracker</h1>
+    <form id="signInForm">
+        <h2>Sign In</h2>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="personToSee">Person to See:</label>
+        <input type="text" id="personToSee" name="personToSee" required>
+        <label for="signInTime">Sign In Time:</label>
+        <input type="datetime-local" id="signInTime" name="signInTime" required>
+        <button type="button" onclick="setCurrentDateTime('signInTime')">Set Current Time</button>
+        <input type="submit" value="Sign In">
+    </form>
+    <form id="signOutForm">
+        <h2>Sign Out</h2>
+        <label for="nameOut">Name:</label>
+        <input type="text" id="nameOut" name="nameOut" required>
+        <label for="signOutTime">Sign Out Time:</label>
+        <input type="datetime-local" id="signOutTime" name="signOutTime" required>
+        <button type="button" onclick="setCurrentDateTime('signOutTime')">Set Current Time</button>
+        <input type="submit" value="Sign Out">
+    </form>
+    <button id="exportBtn">Export to CSV</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Person to See</th>
+                <th>Sign In Time</th>
+                <th>Sign Out Time</th>
+            </tr>
+        </thead>
+        <tbody id="guestList">
+        </tbody>
+    </table>
+
+    <script>
+        function setCurrentDateTime(inputId) {
+            const input = document.getElementById(inputId);
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+            input.value = formattedDateTime;
+        }
+
+        const signInForm = document.getElementById('signInForm');
+        const signOutForm = document.getElementById('signOutForm');
+        const guestList = document.getElementById('guestList');
+        const exportBtn = document.getElementById('exportBtn');
+
+        signInForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const personToSee = document.getElementById('personToSee').value;
+            const signInTime = document.getElementById('signInTime').value;
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${name}</td><td>${personToSee}</td><td>${signInTime}</td><td></td>`;
+            guestList.appendChild(row);
+            signInForm.reset();
+        });
+
+        signOutForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const nameOut = document.getElementById('nameOut').value;
+            const signOutTime = document.getElementById('signOutTime').value;
+            const rows = guestList.getElementsByTagName('tr');
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                if (cells[0].textContent === nameOut && cells[3].textContent === "") {
+                    cells[3].textContent = signOutTime;
+                    break;
+                }
+            }
+            signOutForm.reset();
+        });
+
+        exportBtn.addEventListener('click', function() {
+            let csv = [];
+            const rows = document.querySelectorAll('table tr');
+            for (let i = 0; i < rows.length; i++) {
+                const row = [], cols = rows[i].querySelectorAll('td, th');
+                for (let j = 0; j < cols.length; j++) {
+                    row.push(cols[j].innerText);
+                }
+                csv.push(row.join(','));
+            }
+            downloadCSV(csv.join('\n'));
+        });
+
+        function downloadCSV(csv) {
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'guest_list.csv');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>
