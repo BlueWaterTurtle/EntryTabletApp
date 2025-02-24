@@ -6,6 +6,9 @@
     <title>Guest Tracker</title>
     <style>
         body {
+            background-image: url('dark_version_levata_screensaver_1920x1080.jpg');
+            background-size: cover; /* Scales the image to cover the entire background */
+            background-repeat: no-repeat; /* Prevents repeating the image */
             font-family: Arial, sans-serif;
             margin: 20px;
         }
@@ -39,10 +42,16 @@
         th {
             background-color: #f2f2f2;
         }
+        img.float-right {
+            float: right;
+            margin-left: 20px;
+            max-width: 200px;
+        }
     </style>
 </head>
 <body>
     <h1>Guest Tracker</h1>
+    <img src="Levata_Logo_GRD_PUR_RGB.jpg" alt="Brand Image" class="float-right">
     <form id="signInForm">
         <h2>Sign In</h2>
         <label for="name">Name:</label>
