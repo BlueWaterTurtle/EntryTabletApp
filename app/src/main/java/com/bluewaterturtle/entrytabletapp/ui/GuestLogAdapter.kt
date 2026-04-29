@@ -34,17 +34,14 @@ class GuestLogAdapter : ListAdapter<GuestEntity, GuestLogAdapter.GuestViewHolder
             binding.tvSignInTime.text = displayFormat.format(Date(guest.signInTime))
             binding.tvSignOutTime.text = guest.signOutTime?.let { displayFormat.format(Date(it)) } ?: "—"
 
-            // Alternate row background colors for readability
-            val bgColor = if (position % 2 == 0) {
-                Color.parseColor("#1AFFFFFF")
-            } else {
-                Color.parseColor("#33FFFFFF")
-            }
-            binding.root.setBackgroundColor(bgColor)
+            binding.root.setBackgroundColor(if (position % 2 == 0) ROW_COLOR_EVEN else ROW_COLOR_ODD)
         }
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<GuestEntity>() {
+        private val ROW_COLOR_EVEN = Color.parseColor("#1AFFFFFF")
+        private val ROW_COLOR_ODD = Color.parseColor("#33FFFFFF")
+
         override fun areItemsTheSame(oldItem: GuestEntity, newItem: GuestEntity) =
             oldItem.id == newItem.id
 

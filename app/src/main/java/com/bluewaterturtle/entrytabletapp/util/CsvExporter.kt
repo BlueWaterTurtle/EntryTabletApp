@@ -43,7 +43,7 @@ object CsvExporter {
         }
 
         val fileName = "guest_log_${System.currentTimeMillis()}.csv"
-        val file = File(context.filesDir, fileName)
+        val file = File(context.cacheDir, fileName)
         FileWriter(file).use { it.write(sb.toString()) }
 
         val uri = FileProvider.getUriForFile(
