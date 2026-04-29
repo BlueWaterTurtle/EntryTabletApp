@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="32dp"
+    android:background="?attr/colorSurface"
+    tools:context=".ui.SignOutFragment">
+
+    <TextView
+        android:id="@+id/titleSignOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_out"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnSurface"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="32dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutGuestSpinner"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/select_guest"
+        app:layout_constraintTop_toBottomOf="@id/titleSignOut"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp">
+
+        <AutoCompleteTextView
+            android:id="@+id/spinnerGuests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:textSize="20sp"
+            tools:ignore="LabelFor" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvNoGuests"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/no_signed_in_guests"
+        android:textSize="18sp"
+        android:textColor="?attr/colorError"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/layoutGuestSpinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutSignOutTime"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/sign_out_time"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_calendar"
+        app:layout_constraintTop_toBottomOf="@id/tvNoGuests"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="32dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSignOutTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:clickable="true"
+            android:textSize="20sp"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        app:layout_constraintTop_toBottomOf="@id/layoutSignOutTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:textSize="18sp"
+            android:layout_marginEnd="16dp"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            android:textSize="18sp"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="12dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

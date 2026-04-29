@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/startFragment">
+
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.bluewaterturtle.entrytabletapp.ui.StartFragment"
+        android:label="Start"
+        tools:layout="@layout/fragment_start">
+        <action
+            android:id="@+id/action_start_to_signIn"
+            app:destination="@id/signInFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_start_to_signOut"
+            app:destination="@id/signOutFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_start_to_log"
+            app:destination="@id/logFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.bluewaterturtle.entrytabletapp.ui.SignInFragment"
+        android:label="Sign In"
+        tools:layout="@layout/fragment_sign_in" />
+
+    <fragment
+        android:id="@+id/signOutFragment"
+        android:name="com.bluewaterturtle.entrytabletapp.ui.SignOutFragment"
+        android:label="Sign Out"
+        tools:layout="@layout/fragment_sign_out" />
+
+    <fragment
+        android:id="@+id/logFragment"
+        android:name="com.bluewaterturtle.entrytabletapp.ui.LogFragment"
+        android:label="Log"
+        tools:layout="@layout/fragment_log" />
+
+</navigation>

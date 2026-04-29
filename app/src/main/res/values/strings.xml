@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Entry Tablet App</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="view_log">View Log</string>
+    <string name="name">Name</string>
+    <string name="person_to_see">Person to See</string>
+    <string name="sign_in_time">Sign In Time</string>
+    <string name="sign_out_time">Sign Out Time</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="export_csv">Export CSV</string>
+    <string name="clear_all">Clear All</string>
+    <string name="confirm_clear">Confirm Clear</string>
+    <string name="confirm_clear_message">Are you sure you want to clear all guest records? This cannot be undone.</string>
+    <string name="no_signed_in_guests">No guests are currently signed in.</string>
+    <string name="select_guest">Select a guest to sign out</string>
+    <string name="guest_tracker_title">Guest Tracker</string>
+    <string name="admin">Admin</string>
+    <string name="back">Back</string>
+    <string name="log_title">Guest Log</string>
+    <string name="no_records">No records found.</string>
+    <string name="name_header">Name</string>
+    <string name="person_to_see_header">Person to See</string>
+    <string name="sign_in_time_header">Sign In Time</string>
+    <string name="sign_out_time_header">Sign Out Time</string>
+</resources>
