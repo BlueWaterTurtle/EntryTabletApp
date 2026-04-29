@@ -13,7 +13,6 @@ import com.bluewaterturtle.entrytabletapp.databinding.FragmentSignInBinding
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
 class SignInFragment : Fragment() {
