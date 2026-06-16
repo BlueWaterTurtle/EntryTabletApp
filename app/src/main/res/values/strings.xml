@@ -16,7 +16,7 @@
     <string name="confirm_clear_message">Are you sure you want to clear all guest records? This cannot be undone.</string>
     <string name="no_signed_in_guests">No guests are currently signed in.</string>
     <string name="select_guest">Select a guest to sign out</string>
-    <string name="guest_tracker_title">Guest Tracker</string>
+    <string name="guest_tracker_title">Guest Register</string>
     <string name="admin">Admin</string>
     <string name="back">Back</string>
     <string name="log_title">Guest Log</string>
