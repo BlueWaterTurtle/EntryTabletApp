@@ -1,4 +1,12 @@
 # EntryTabletApp
 Android app for logging visitors
 
-I'm considering adding more complex functionality to this project. I may add a start page that gives the option for sign in or sign out and brings you to the respective page. I'll just need to keep it simple enough to understand without much thought. 
+App is useful for tracking visitors
+
+I've replaced the plain text field (person to see) with a drop down. Names can be added using the Admin page. 
+
+visitor log can be exported to .csv from the admin page. 
+
+using the sign out option for the primary screen displays the currently signed in users. 
+
+sign in asks for your name, who you're here to see(dropdown), and the date (autofilled but editable).
