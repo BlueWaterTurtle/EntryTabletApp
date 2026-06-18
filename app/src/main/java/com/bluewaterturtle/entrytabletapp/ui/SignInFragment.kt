@@ -6,9 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.core.view.isGone
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bluewaterturtle.entrytabletapp.R
+import com.bluewaterturtle.entrytabletapp.data.PersonToSeeEntity
 import com.bluewaterturtle.entrytabletapp.databinding.FragmentSignInBinding
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
@@ -24,6 +29,8 @@ class SignInFragment : Fragment() {
     private val displayFormat = SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.getDefault())
 
     private var selectedCalendar: Calendar = Calendar.getInstance()
+    private var activePeople: List<PersonToSeeEntity> = emptyList()
+    private lateinit var personToSeeAdapter: ArrayAdapter<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,30 +51,88 @@ class SignInFragment : Fragment() {
         binding.etSignInTime.setOnClickListener { showDateTimePicker() }
         binding.layoutSignInTime.setEndIconOnClickListener { showDateTimePicker() }
 
+        personToSeeAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            mutableListOf()
+        )
+        binding.etPersonToSee.setAdapter(personToSeeAdapter)
+        binding.etPersonToSee.setOnClickListener { binding.etPersonToSee.showDropDown() }
+        binding.etPersonToSee.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.etPersonToSee.showDropDown()
+            }
+        }
+        binding.etPersonToSee.setOnItemClickListener { _, _, _, _ ->
+            updateCustomPersonVisibility()
+            binding.layoutPersonToSee.error = null
+        }
+        binding.etPersonToSee.doAfterTextChanged {
+            updateCustomPersonVisibility()
+            binding.layoutPersonToSee.error = null
+        }
+        updateCustomPersonVisibility()
+
+        viewModel.activePeopleToSee.observe(viewLifecycleOwner) { people ->
+            activePeople = people
+            updatePersonToSeeOptions()
+        }
+
         binding.btnCancel.setOnClickListener {
             findNavController().popBackStack()
         }
 
         binding.btnSubmit.setOnClickListener {
             val name = binding.etName.text?.toString()?.trim() ?: ""
-            val personToSee = binding.etPersonToSee.text?.toString()?.trim() ?: ""
+            val personToSeeSelection = binding.etPersonToSee.text?.toString() ?: ""
+            val customPersonToSee = binding.etCustomPersonToSee.text?.toString() ?: ""
 
             var valid = true
             if (name.isEmpty()) {
-                binding.layoutName.error = "Name is required"
+                binding.layoutName.error = getString(R.string.name_required)
                 valid = false
             } else {
                 binding.layoutName.error = null
             }
-            if (personToSee.isEmpty()) {
-                binding.layoutPersonToSee.error = "Person to see is required"
-                valid = false
-            } else {
-                binding.layoutPersonToSee.error = null
+
+            val personToSeeResult = PersonToSeeSelectionValidator.validate(
+                selectedOption = personToSeeSelection,
+                customName = customPersonToSee,
+                validNames = activePeople.map { it.displayName }.toSet(),
+                otherLabel = getString(R.string.other_person_option)
+            )
+
+            val finalPersonToSee = when (personToSeeResult) {
+                is PersonToSeeSelectionResult.Success -> {
+                    binding.layoutPersonToSee.error = null
+                    binding.layoutCustomPersonToSee.error = null
+                    personToSeeResult.personToSee
+                }
+
+                PersonToSeeSelectionResult.MissingSelection -> {
+                    binding.layoutPersonToSee.error = getString(R.string.person_to_see_required)
+                    binding.layoutCustomPersonToSee.error = null
+                    valid = false
+                    ""
+                }
+
+                PersonToSeeSelectionResult.InvalidSelection -> {
+                    binding.layoutPersonToSee.error = getString(R.string.select_person_to_see_from_list)
+                    binding.layoutCustomPersonToSee.error = null
+                    valid = false
+                    ""
+                }
+
+                PersonToSeeSelectionResult.MissingCustomName -> {
+                    binding.layoutPersonToSee.error = null
+                    binding.layoutCustomPersonToSee.error = getString(R.string.custom_person_required)
+                    valid = false
+                    ""
+                }
             }
 
             if (valid) {
-                viewModel.signIn(name, personToSee, selectedCalendar.timeInMillis)
+                viewModel.signIn(name, finalPersonToSee, selectedCalendar.timeInMillis)
                 findNavController().popBackStack()
                 Snackbar.make(
                     requireActivity().window.decorView,
@@ -100,6 +165,29 @@ class SignInFragment : Fragment() {
             cal.get(Calendar.MONTH),
             cal.get(Calendar.DAY_OF_MONTH)
         ).show()
+    }
+
+    private fun updatePersonToSeeOptions() {
+        val options = activePeople.map { it.displayName } + getString(R.string.other_person_option)
+        personToSeeAdapter.clear()
+        personToSeeAdapter.addAll(options)
+        personToSeeAdapter.notifyDataSetChanged()
+
+        val currentSelection = binding.etPersonToSee.text?.toString()?.trim().orEmpty()
+        if (currentSelection.isNotEmpty() && currentSelection !in options) {
+            binding.etPersonToSee.setText("", false)
+        }
+        updateCustomPersonVisibility()
+    }
+
+    private fun updateCustomPersonVisibility() {
+        val showCustomField =
+            binding.etPersonToSee.text?.toString()?.trim() == getString(R.string.other_person_option)
+        binding.layoutCustomPersonToSee.isGone = !showCustomField
+        if (!showCustomField) {
+            binding.etCustomPersonToSee.text?.clear()
+            binding.layoutCustomPersonToSee.error = null
+        }
     }
 
     override fun onDestroyView() {

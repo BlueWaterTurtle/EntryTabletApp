@@ -4,9 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.bluewaterturtle.entrytabletapp.data.AddPersonToSeeResult
 import com.bluewaterturtle.entrytabletapp.data.GuestDatabase
 import com.bluewaterturtle.entrytabletapp.data.GuestEntity
 import com.bluewaterturtle.entrytabletapp.data.GuestRepository
+import com.bluewaterturtle.entrytabletapp.data.PersonToSeeEntity
 import kotlinx.coroutines.launch
 
 class GuestViewModel(application: Application) : AndroidViewModel(application) {
@@ -15,12 +17,17 @@ class GuestViewModel(application: Application) : AndroidViewModel(application) {
 
     val allGuests: LiveData<List<GuestEntity>>
     val signedInGuests: LiveData<List<GuestEntity>>
+    val activePeopleToSee: LiveData<List<PersonToSeeEntity>>
 
     init {
-        val dao = GuestDatabase.getDatabase(application).guestDao()
-        repository = GuestRepository(dao)
+        val database = GuestDatabase.getDatabase(application)
+        repository = GuestRepository(
+            database.guestDao(),
+            database.personToSeeDao()
+        )
         allGuests = repository.allGuests
         signedInGuests = repository.signedInGuests
+        activePeopleToSee = repository.activePeopleToSee
     }
 
     fun signIn(name: String, personToSee: String, signInTime: Long) {
@@ -43,6 +50,18 @@ class GuestViewModel(application: Application) : AndroidViewModel(application) {
     fun clearAll() {
         viewModelScope.launch {
             repository.deleteAllGuests()
+        }
+    }
+
+    fun addPersonToSee(displayName: String, onResult: (AddPersonToSeeResult) -> Unit) {
+        viewModelScope.launch {
+            onResult(repository.addPersonToSee(displayName))
+        }
+    }
+
+    fun deactivatePersonToSee(id: Long) {
+        viewModelScope.launch {
+            repository.deactivatePersonToSee(id)
         }
     }
 }
