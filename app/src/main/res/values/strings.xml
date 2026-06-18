@@ -20,9 +20,26 @@
     <string name="admin">Admin</string>
     <string name="back">Back</string>
     <string name="log_title">Guest Log</string>
+    <string name="admin_title">Admin</string>
     <string name="no_records">No records found.</string>
     <string name="name_header">Name</string>
     <string name="person_to_see_header">Person to See</string>
     <string name="sign_in_time_header">Sign In Time</string>
     <string name="sign_out_time_header">Sign Out Time</string>
+    <string name="other_person_option">Other</string>
+    <string name="other_person_to_see">Other person to see</string>
+    <string name="name_required">Name is required</string>
+    <string name="person_to_see_required">Person to see is required</string>
+    <string name="select_person_to_see_from_list">Select a person from the list or choose Other</string>
+    <string name="custom_person_required">Enter the person you are here to see</string>
+    <string name="manage_people_to_see">Manage people to see</string>
+    <string name="person_to_see_name">Person to see name</string>
+    <string name="add_person">Add</string>
+    <string name="remove_person">Remove</string>
+    <string name="no_people_configured">No people to see have been added yet.</string>
+    <string name="person_added">Person added.</string>
+    <string name="person_reactivated">Person restored.</string>
+    <string name="person_removed">Person removed.</string>
+    <string name="person_duplicate">That person is already available.</string>
+    <string name="person_name_required">Enter a name to add.</string>
 </resources>
