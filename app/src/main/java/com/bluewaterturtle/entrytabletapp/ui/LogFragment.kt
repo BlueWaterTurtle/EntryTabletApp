@@ -24,7 +24,7 @@ class LogFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: GuestViewModel by activityViewModels()
     private lateinit var adapter: GuestLogAdapter
-    private lateinit var adapter: GuestLogAdapter
+    
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
